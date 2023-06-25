@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Artist (
 CREATE TABLE IF NOT EXISTS Album (
     album_id SERIAL PRIMARY KEY,
     album_title VARCHAR(250) NOT NULL,
-    year_of_release date NOT NULL
+    year_of_release interval YEAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Track (
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Track (
 CREATE TABLE IF NOT EXISTS Collections (
     collections_id SERIAL PRIMARY KEY,
     collections_title VARCHAR(250) NOT NULL,
-    year_of_release date NOT NULL
+    year_of_release date  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS genre_artist (
@@ -53,5 +53,13 @@ VALUES ('Accept');
 
 INSERT INTO genre_artist (artist_id, genre_id)
 VALUES (1, 1);
+
+INSERT INTO album (album_title, year_of_release)
+VALUES ('Hungry Years', 1986);
+
+INSERT INTO artist_album (artist_id, album_id)
+VALUES (1, 1);
+
+
 
 SELECT * FROM genre_artist;
