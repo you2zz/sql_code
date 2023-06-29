@@ -28,15 +28,15 @@ CREATE TABLE IF NOT EXISTS Collections (
 );
 
 CREATE TABLE IF NOT EXISTS genre_artist (
-    atrist_id INTEGER NOT NULL REFERENCES Artist (artist_id),
+    artist_id INTEGER NOT NULL REFERENCES Artist (artist_id),
     genre_id INTEGER NOT NULL REFERENCES Genre (genre_id),
-    CONSTRAINT genre_artist_pk PRIMARY KEY (atrist_id, genre_id)
+    CONSTRAINT genre_artist_pk PRIMARY KEY (artist_id, genre_id)
 );
 
 CREATE TABLE IF NOT EXISTS artist_album (
-    atrist_id INTEGER NOT NULL REFERENCES Artist (artist_id),
+    artist_id INTEGER NOT NULL REFERENCES Artist (artist_id),
     album_id INTEGER NOT NULL REFERENCES Album (album_id),
-    CONSTRAINT artist_album_pk PRIMARY KEY (atrist_id, album_id)
+    CONSTRAINT artist_album_pk PRIMARY KEY (artist_id, album_id)
 );
 
 CREATE TABLE IF NOT EXISTS track_collections (
