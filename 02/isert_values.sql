@@ -42,8 +42,23 @@ INSERT INTO album (album_title, year_of_release) VALUES
     ('Have a Smile with Me', 2019), -- Ray Charles
     ('Take It Home', 2016), -- B.B. King
     ('Love Me Tender', 2018), -- B.B. King
-    ('Guess Who', 2020, -- B.B. King
+    ('Guess Who', 2020), -- B.B. King
     ('Happy Xmas', 2018), -- Eric Clapton
     ('I Still Do', 2019), -- Eric Clapton
     ('Old Sock', 2020);  -- Eric Clapton
 
+-- добавляем треки
+
+INSERT INTO track (track_name, track_duration, album_id) VALUES
+    ('That Was Just Your Life', 468, 1),
+    ('The Judas Kiss', 480, 1),
+    ('Hardwired', 189, 2),
+    ('Atlas, Rise!', 281, 2),
+    ('Shadows Follow', 365, 3),
+    ('Chasing Light', 401, 3),
+    ('El Dorado', 265, 4),
+    ('Coming Home', 378, 4),
+    ('Starblind', 382, 5),
+    ('When the Wild Wind Blows', 259, 5),
+    ('Mother of Mercy', 352, 6),
+    ('Satellite 15… The Final Frontier', 201, 6),
