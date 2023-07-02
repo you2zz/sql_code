@@ -53,7 +53,7 @@ INSERT INTO track (track_name, track_duration, album_id) VALUES
     ('When the Wild Wind Blows', 259, 5),
     ('Mother of Mercy', 352, 6),
     ('Satellite 15… The Final Frontier', 201, 6),
-    ('Лётчик', 351, 7),
+    ('Мой лётчик', 351, 7),
     ('Чёрное солнце', 294, 7),
     ('Детство', 651, 8),
     ('Мой талисман', 482, 8),
@@ -81,10 +81,10 @@ INSERT INTO track (track_name, track_duration, album_id) VALUES
 
 INSERT INTO collections (collections_title, year_of_release) VALUES
     ('The best of jazz and R&B', 2018),
-    ('The best of metall', 2010),
-    ('Нeavy wave', 2015),
-    ('Oh this blues', 2011),
-    ('Rock is alive', 2013);
+    ('The best of metall', 2019),
+    ('Нeavy wave', 2016),
+    ('Oh this blues', 2020),
+    ('Rock is alive', 2017);
 
 -- связываем жанры и исполнителей
 
