@@ -85,5 +85,5 @@ where track_duration = (SELECT min(track_duration)  FROM track t);
 SELECT album_title FROM album a 
 JOIN track t ON a.album_id = t.album_id  
 GROUP BY album_title
-having 
+HAVING 
 COUNT(*) = (SELECT MIN(c) FROM (SELECT COUNT(*) AS c FROM track GROUP BY album_id) AS q);
