@@ -30,7 +30,7 @@ WHERE phone_id = 7;
 
 -- вариант приналичии телефонеа
 with rows as (
-INSERT INTO clients (firts_name, last_name, e_mail) VALUES ('Вахтангий', 'Власов', 'vxrivla@gmail.com') RETURNING client_id 
+INSERT INTO clients (first_name, last_name, e_mail) VALUES ('Вахтангий', 'Власов', 'vxrivla@gmail.com') RETURNING client_id 
 )
 INSERT INTO phones (client_id, phone_number) 
 SELECT client_id, '912612354'
