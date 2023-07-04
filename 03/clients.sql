@@ -18,7 +18,7 @@ INSERT INTO clients (first_name, last_name, e_mail) VALUES
     ('Юрий', 'Власов', 'yrivla@gmail.com'),
     ('Юрий', 'Квасов', 'yriлмфa@gmail.com');
 
-INSERT INTO phones (client_id, phone_number) VALUES
+INSERT INTO phones (cur.fetchone(), phone_number) VALUES
     (1, '79826123876'),
     (1, '79826123877'),
     (2, '79126108098'),
