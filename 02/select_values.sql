@@ -20,10 +20,30 @@ WHERE artist_name like '% %');
 SELECT artist_name FROM artist
 WHERE (LENGTH(artist_name) - LENGTH(REPLACE(artist_name, ' ', ''))) = 0;
 
--- название треков, которые содержат "мой" или "my"
+/* название треков, которые содержат "мой" или "my" */
 SELECT track_name FROM track
-WHERE UPPER (track_name) LIKE '%МОЙ%'  
-OR UPPER (track_name) LIKE '%MY%';
+WHERE track_name ILIKE '% my'
+or track_name ILIKE 'my %'
+or track_name ILIKE '% my %'
+or track_name ILIKE 'my'
+or track_name ilike '% мой'
+or track_name ILIKE 'мой %'
+or track_name ILIKE '% мой %'
+or track_name ILIKE 'мой';
+
+/* название треков, которые содержат "мой" или "my" */
+SELECT track_name FROM track
+WHERE string_to_array(LOWER(track_name), ' ') && array ['my', 'мой'];
+
+/* название треков, которые содержат "мой" или "my" */
+SELECT track_name FROM track
+where regexp_like(track_name, '\ymy[[:>:]]', 'i')
+or regexp_like(track_name, '\yмой[[:>:]]', 'i');
+
+/* название треков, которые содержат "мой" или "my" */
+SELECT track_name FROM track
+where track_name ~* '\ymy[[:>:]]'
+or track_name ~* '\yмой[[:>:]]';
 
 -- количество исполнителей в каждом жанре
 SELECT g.genre_name, COUNT(artist_id) FROM genre_artist ga
