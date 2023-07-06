@@ -80,12 +80,12 @@ WHERE a2.artist_name = 'Metallica'
 GROUP BY collections_title;
 
 -- названия альбомов, в которых присутствуют исполнители более чем одного жанра
-SELECT album_title FROM album a 
+SELECT distinct album_title FROM album a 
 JOIN artist_album aa ON a.album_id = aa.album_id 
 JOIN artist a2 ON a2.artist_id = aa.artist_id 
 JOIN genre_artist ga ON a2.artist_id = ga.artist_id 
-GROUP BY album_title
-HAVING COUNT(genre_id) > 1;
+GROUP BY album_title, ga.artist_id 
+HAVING COUNT(ga.genre_id) > 1;
 
 -- наименования треков, которые не входят в сборники
 SELECT track_name FROM track
