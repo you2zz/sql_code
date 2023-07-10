@@ -12,19 +12,20 @@ class Course(Base):
     # homeworks = relationship("Homework", back_populates="course")
 
     def __str__(self):
-        return f'{self.id}: {self.name}'
+        return f'Course {self.id}: {self.name}'
 
 class Homework(Base):
     __tablename__ = "homework"
 
     id = sq.Column(sq.Integer, primary_key=True)
     number = sq.Column(sq.Integer, nullable=False)
-    descripion = sq.Column(sq.Text, nullable=False)
+    description = sq.Column(sq.Text, nullable=False)
     course_id = sq.Column(sq.Integer, sq.ForeignKey("course.id"), nullable=False)
 
     # course = relationship(Course, back_populates="homeworks")
     course = relationship(Course, backref="homeworks")
-
+    def __str__(self):
+        return f'Homework {self.id}: ({self.number}, {self.description}, {self.course_id})'
 
 def create_tables(engine):
     Base.metadata.drop_all(engine) # удаляет данные из базы данных
