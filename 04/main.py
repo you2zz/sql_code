@@ -1,63 +1,53 @@
+import os
+import json
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-from models import create_tables, Course, Homework
+from models import create_tables, Publisher, Stock, Book, Shop, Sale
 
-DSN = 'postgresql://postgres:fur2529@localhost:5432/orm_db'
+load_dotenv()
+
+login = os.getenv('LOGIN_POSTGRESQL')
+password = os.getenv('PASSWORD_POSTGRESQL')
+data_base = os.getenv('DATA_BASE_NAME')
+
+DSN = f'postgresql://{login}:{password}@localhost:5432/{data_base}'
 engine = sqlalchemy.create_engine(DSN)
 
-create_tables(engine)
+if __name__ == "__main__":
+    # создаем таблицы
+    create_tables(engine)
+    
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-Session = sessionmaker(bind=engine)
-session = Session()
+    # заполняем данными
+    with open('files/tests_data.json', 'r') as fd:
+        data = json.load(fd)
+    
+    for record in data:       
+        model = {
+            'publisher': Publisher,
+            'book': Book,
+            'shop': Shop,            
+            'stock': Stock,
+            'sale': Sale
+        }[record.get('model')]
+        session.add(model(id=record.get('pk'), **record.get('fields')))
+ 
+    session.commit()
 
-course1 = Course(name='Python')
-# print(course1.id)
+    # ишем факты покупки книг у издателя
+    search_pub_id = int(input()) # вводится id издателя 
 
-session.add(course1)
-session.commit()
+    subq = session.query(Publisher).filter(Publisher.id == search_pub_id).subquery()
+    subq_1 = session.query(Book).join(subq).subquery()
+    subq_2 = session.query(Stock).join(subq_1, Stock.id_book == subq_1.c.id).subquery()
+    subq_3 = session.query(Shop).join(subq_2, Shop.id == subq_2.c.id_shop).subquery()
+    search_res = session.query(Sale, subq_1.c.title, subq_3.c.name).join(subq_2, Sale.id_stock == subq_2.c.id).join(subq_1). join(subq_3)
+    
+    for s in search_res:
+        print(f'{s[1]} | {s[2]} | {s[0]}')
 
-# print(course1.id)
-
-# print(course1)
-
-hw1 = Homework(number = 1, description = 'простая домашняя работа', course = course1)
-hw2 = Homework(number = 2, description = 'сложная домашняя работа', course = course1)
-
-session.add_all([hw1, hw2])
-session.commit()
-
-# for c in session.query(Course).all(): # запрашиваем все курсы
-#     print(c)
-
-# for c in session.query(Homework).all(): # запрашиваем все домашние работы
-#     print(c)
-
-# for c in session.query(Homework).filter(Homework.number > 1).all(): # запрашиваем необходимые работы через фильтр
-#     print(c)
-
-# for c in session.query(Homework).filter(Homework.description.like('%прост%')).all(): # запрашиваем необходимые работы через фильтр
-#     print(c)
-
-# for c in session.query(Course).join(Homework.course).filter(Homework.number == 2).all():
-#     print(c)
-
-course2 = Course(name='Java')
-session.add(course2)
-session.commit()   
-
-# subq = session.query(Homework).filter(Homework.description.like('%сложн%')).subquery() # создаем подзапрос
-# for c in session.query(Course).join(subq, Course.id == subq.c.course_id): # объединяем с подзапросом
-#     print(c)
-
-
-session.query(Course).filter(Course.name == 'Java').update({'name': 'JavaScript'})
-session.commit() 
-
-session.query(Course).filter(Course.name == 'JavaScript').delete()
-session.commit() 
-
-for c in session.query(Course).all():
-    print(c)
-
-session.close()
+    session.close()
